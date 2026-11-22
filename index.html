@@ -3,1042 +3,439 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hillpoint Agency Ltd | Nairobi Homes, Videos &amp; Photos</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <title>Hillpoint Agency Ltd | Real Estate Portfolio</title>
+  <meta name="description" content="Explore featured real estate listings, property videos, photo galleries, and direct WhatsApp viewing bookings with Hillpoint Agency Ltd." />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0KE29KWLQH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-0KE29KWLQH');
+
+    function trackWhatsAppLead(propertyName = 'General Inquiry', leadSource = 'website') {
+      if (typeof gtag === 'function') {
+        gtag('event', 'whatsapp_lead_click', {
+          event_category: 'engagement',
+          event_label: propertyName,
+          lead_source: leadSource,
+          whatsapp_number: '0116162159'
+        });
+      }
+    }
+  </script>
+
   <style>
     :root {
-      --bg-black: #050505;
-      --bg-card: #111111;
-      --bg-elevated: #191919;
-      --goldish: #FFB000;
-      --goldish-bright: #FFC933;
-      --goldish-dim: rgba(255, 176, 0, 0.28);
-      --text-main: #FFFDF7;
-      --text-muted: #C8BEA8;
-      --live-green: #10B981;
+      --bg: #0f1115;
+      --surface: #181b22;
+      --surface-alt: #202530;
+      --text: #f4f6f9;
+      --muted: #a4aebd;
+      --accent: #d4af37;
+      --accent-hover: #e5c158;
+      --border: #2b313e;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      background-color: var(--bg-black);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      line-height: 1.5;
-      overflow-x: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
     }
-
-    .font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
 
     .container {
-      width: 100%;
-      max-width: 1240px;
+      width: min(1140px, 92%);
       margin: 0 auto;
-      padding: 0 20px;
     }
 
-    .live-dot {
-      position: relative;
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background-color: var(--live-green);
-      flex-shrink: 0;
-    }
-
-    .live-dot::after {
-      content: "";
-      position: absolute;
-      inset: -4px;
-      border-radius: 999px;
-      border: 2px solid var(--live-green);
-      animation: pulseRing 1.7s infinite;
-    }
-
-    @keyframes pulseRing {
-      0% { transform: scale(0.75); opacity: 0.9; }
-      100% { transform: scale(1.85); opacity: 0; }
-    }
-
-    .top-strip {
-      background-color: var(--bg-black);
-      border-bottom: 1px solid var(--goldish-dim);
-      font-size: 12px;
-      padding: 10px 0;
-    }
-
-    .top-strip-inner {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .live-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--goldish);
-      font-weight: 700;
-    }
-
-    .status-pill {
-      padding: 3px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--goldish-dim);
-      background-color: var(--bg-card);
-      color: var(--goldish-bright);
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    .site-header {
+    header {
       position: sticky;
       top: 0;
-      z-index: 40;
-      background-color: rgba(5, 5, 5, 0.95);
-      border-bottom: 1px solid var(--goldish-dim);
-      backdrop-filter: blur(10px);
+      z-index: 20;
+      background: rgba(15, 17, 21, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
     }
 
-    .header-inner {
+    .nav {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding: 14px 0;
+      align-items: center;
+      padding: 1rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent);
       text-decoration: none;
-      color: var(--text-main);
-    }
-
-    .brand-badge {
-      position: relative;
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background-color: var(--bg-card);
-      border: 1px solid var(--goldish);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--goldish);
-      font-size: 24px;
-      font-weight: 700;
-    }
-
-    .brand-badge .live-dot {
-      position: absolute;
-      top: -3px;
-      right: -3px;
-      border: 2px solid var(--bg-black);
-    }
-
-    .brand-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--goldish-bright);
-      line-height: 1.1;
-    }
-
-    .brand-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
     }
 
     .nav-links {
-      display: none;
-      gap: 24px;
-      font-size: 14px;
-      font-weight: 600;
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .nav-links a {
-      color: var(--text-main);
+      color: var(--text);
       text-decoration: none;
+      font-size: 0.95rem;
     }
 
-    .nav-links a:hover { color: var(--goldish); }
-
-    @media (min-width: 768px) {
-      .nav-links { display: flex; }
-    }
-
-    .btn-gold {
+    .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      background-color: var(--goldish);
-      color: #050505;
-      border: 1px solid var(--goldish-bright);
-      border-radius: 12px;
-      padding: 11px 18px;
-      font-size: 13px;
-      font-weight: 800;
-      text-decoration: none;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      border: none;
       cursor: pointer;
-    }
-
-    .btn-dark-gold {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background-color: var(--bg-elevated);
-      color: var(--goldish);
-      border: 1px solid var(--goldish);
-      border-radius: 12px;
-      padding: 11px 18px;
-      font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
       text-decoration: none;
-      cursor: pointer;
+      background: var(--accent);
+      color: #111318;
+      transition: background 0.2s ease;
     }
 
-    .section {
-      background-color: var(--bg-black);
-      padding: 48px 0;
-      border-bottom: 1px solid var(--goldish-dim);
+    .btn:hover {
+      background: var(--accent-hover);
     }
 
-    .section-header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
+    section {
+      padding: 3.5rem 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    .section-eyebrow {
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--goldish);
+    h1 {
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.15;
+      margin-bottom: 1rem;
     }
 
-    .section-title {
-      font-size: clamp(28px, 3.6vw, 38px);
-      color: var(--text-main);
-      margin-top: 4px;
+    h2 {
+      font-size: clamp(1.45rem, 2.8vw, 2.1rem);
+      margin-bottom: 1.25rem;
     }
 
-    .grid-2 {
+    p.lead {
+      color: var(--muted);
+      max-width: 65ch;
+      margin-bottom: 1.5rem;
+    }
+
+    .grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 22px;
-    }
-
-    @media (min-width: 860px) {
-      .grid-2 { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    @media (min-width: 640px) {
-      .grid-3 { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (min-width: 1024px) {
-      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.25rem;
     }
 
     .card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--goldish-dim);
-      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
       overflow: hidden;
-    }
-
-    .video-stage {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background-color: var(--bg-black);
-      border-bottom: 1px solid var(--goldish-dim);
-    }
-
-    .video-stage video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .video-error-box {
-      position: absolute;
-      inset: 0;
-      background-color: var(--bg-black);
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 18px;
-      gap: 8px;
-    }
-
-    .video-error-box.show { display: flex; }
-
-    .photo-stage {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      background-color: var(--bg-elevated);
-      overflow: hidden;
-      cursor: zoom-in;
-    }
-
-    .photo-stage img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.25s ease;
-    }
-
-    .photo-stage:hover img {
-      transform: scale(1.03);
-    }
-
-    .zoom-hint {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background-color: rgba(5, 5, 5, 0.85);
-      border: 1px solid var(--goldish-dim);
-      color: var(--goldish-bright);
-      font-size: 11px;
-      font-weight: 700;
-      pointer-events: none;
-    }
-
-    .card-body { padding: 16px; }
-
-    .price-tag {
-      color: var(--goldish);
-      font-weight: 800;
-      font-size: 16px;
-    }
-
-    .filters {
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+      flex-direction: column;
     }
 
-    .filter-btn {
-      padding: 8px 14px;
-      border-radius: 10px;
-      border: 1px solid var(--goldish-dim);
-      background-color: var(--bg-card);
-      color: var(--text-muted);
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
+    .card img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      cursor: zoom-in;
+      display: block;
     }
 
-    .filter-btn.active {
-      background-color: var(--goldish);
-      color: #050505;
-      border-color: var(--goldish-bright);
+    .card-body {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      flex: 1;
     }
 
-    .booking-box {
-      background-color: var(--bg-card);
-      border: 1px solid var(--goldish);
-      border-radius: 18px;
-      padding: 24px;
+    .meta {
+      color: var(--muted);
+      font-size: 0.9rem;
     }
 
-    .form-grid {
+    .video-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      margin-top: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
     }
 
-    @media (min-width: 640px) {
-      .form-grid { grid-template-columns: repeat(2, 1fr); }
-      .span-2 { grid-column: span 2; }
+    video {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+      max-width: 640px;
+      background: var(--surface);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
     }
 
     label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--goldish);
-      margin-bottom: 6px;
+      display: grid;
+      gap: 0.4rem;
+      font-size: 0.92rem;
     }
 
-    input, select, textarea {
+    input,
+    select,
+    textarea {
       width: 100%;
-      padding: 11px 13px;
-      border-radius: 10px;
-      border: 1px solid var(--goldish-dim);
-      background-color: var(--bg-elevated);
-      color: var(--text-main);
-      font-size: 14px;
-      font-family: inherit;
+      padding: 0.75rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      font: inherit;
     }
 
     .lightbox {
       position: fixed;
       inset: 0;
-      z-index: 80;
-      background-color: rgba(5, 5, 5, 0.96);
+      background: rgba(0, 0, 0, 0.9);
       display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 16px;
-      gap: 12px;
-    }
-
-    .lightbox.open { display: flex; }
-
-    .lightbox-top {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background-color: var(--bg-card);
-      border: 1px solid var(--goldish-dim);
-      border-radius: 14px;
-      padding: 12px 16px;
-    }
-
-    .lightbox-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .zoom-btn {
-      padding: 7px 12px;
-      border-radius: 10px;
-      border: 1px solid var(--goldish);
-      background-color: var(--bg-elevated);
-      color: var(--goldish-bright);
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .zoom-btn.active {
-      background-color: var(--goldish);
-      color: #050505;
-    }
-
-    .lightbox-stage {
-      flex: 1;
-      width: 100%;
-      overflow: auto;
-      display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid var(--goldish-dim);
-      border-radius: 16px;
-      background-color: var(--bg-black);
-      padding: 16px;
+      padding: 1.5rem;
+      z-index: 50;
     }
 
-    .lightbox-stage img {
-      max-width: 100%;
-      max-height: 75vh;
-      object-fit: contain;
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 85vh;
       border-radius: 10px;
-      transform-origin: center center;
-      transition: transform 0.2s ease;
-      cursor: zoom-in;
     }
 
-    .lightbox-stage img.zoomed {
-      max-width: none;
-      max-height: none;
-      cursor: zoom-out;
+    .lightbox-close {
+      position: fixed;
+      top: 1rem;
+      right: 1.25rem;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.85rem;
+      cursor: pointer;
+      font-size: 1rem;
     }
 
     footer {
-      padding: 24px 0;
-      background-color: var(--bg-black);
-      font-size: 12px;
-      color: var(--text-muted);
+      padding: 2rem 0;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-
-  <div class="top-strip">
-    <div class="container top-strip-inner">
-      <div class="live-label">
-        <span class="live-dot"></span>
-        <span>HILLPOINT AGENCY LTD • NAIROBI</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <span id="jsonStatusPill" class="status-pill">Loading catalog...</span>
-      </div>
-    </div>
-  </div>
-
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="#top" class="brand">
-        <div class="brand-badge">
-          <span class="font-display">H</span>
-          <span class="live-dot"></span>
-        </div>
-        <div>
-          <div class="brand-title font-display">Hillpoint Agency Ltd</div>
-          <div class="brand-sub">Videos &amp; Photos • WhatsApp Booking</div>
-        </div>
-      </a>
-
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top">Hillpoint Agency Ltd</a>
       <nav class="nav-links">
-        <a href="#videos-section">2 Videos</a>
-        <a href="#photos-section">Photos</a>
-        <a href="#booking">WhatsApp Booking</a>
+        <a href="#listings">Listings</a>
+        <a href="#videos">Walkthroughs</a>
+        <a href="#booking">Book Viewing</a>
+        <a
+          class="btn"
+          href="https://wa.me/254116162159?text=Hello%20Hillpoint%20Agency%20Ltd%2C%20I%20would%20like%20property%20details."
+          target="_blank"
+          rel="noopener noreferrer"
+          onclick="trackWhatsAppLead('Header WhatsApp Button', 'header_cta')"
+        >
+          WhatsApp (0116162159)
+        </a>
       </nav>
-
-      <a href="#booking" class="btn-gold">
-        <span class="live-dot"></span>
-        <span>Book on WhatsApp</span>
-      </a>
     </div>
   </header>
 
-  <section id="videos-section" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div>
-          <div class="section-eyebrow">Separate Video Players (videos/ Folder)</div>
-          <h1 class="section-title font-display">2 Property Walkthrough Videos</h1>
-        </div>
-        <p style="font-size:13px;color:var(--text-muted);max-width:440px;">
-          Watch both 2-minute walkthrough videos directly below or tap any photo to view and zoom.
+  <main id="top">
+    <section>
+      <div class="container">
+        <h1>Verified Properties &amp; Direct Viewing Bookings</h1>
+        <p class="lead">
+          Browse available properties from Hillpoint Agency Ltd, inspect full-screen photos and walkthrough videos, and book a viewing directly on WhatsApp.
         </p>
+        <a
+          class="btn"
+          href="#booking"
+          onclick="trackWhatsAppLead('Hero Inquiry CTA', 'hero_cta')"
+        >
+          Schedule a Property Viewing
+        </a>
       </div>
+    </section>
 
-      <div id="separateVideosGrid" class="grid-2"></div>
-    </div>
-  </section>
-
-  <section id="photos-section" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div>
-          <div class="section-eyebrow">Separate Photo Gallery (images/ Folder)</div>
-          <h2 class="section-title font-display">House Photos</h2>
-        </div>
-        <div id="filterBar" class="filters">
-          <button type="button" data-cat="All" class="filter-btn active">All (9)</button>
-          <button type="button" data-cat="Luxury Mansions" class="filter-btn">Mansions</button>
-          <button type="button" data-cat="Standalone Villas" class="filter-btn">Villas</button>
-          <button type="button" data-cat="Gated Maisonettes" class="filter-btn">Maisonettes</button>
-          <button type="button" data-cat="Apartments" class="filter-btn">Apartments</button>
-        </div>
-      </div>
-
-      <div id="photosGrid" class="grid-3"></div>
-    </div>
-  </section>
-
-  <section id="booking" class="section">
-    <div class="container">
-      <div class="booking-box">
-        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--goldish-dim);">
-          <div>
-            <div style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--goldish);">
-              <span class="live-dot"></span>
-              <span>WHATSAPP VIEWING DESK</span>
+    <section id="listings">
+      <div class="container">
+        <h2>Featured Listings</h2>
+        <div class="grid">
+          <!-- Replace image paths and property details with your repository assets -->
+          <article class="card">
+            <img src="assets/property-1.jpg" alt="Hillpoint Featured Property 1" data-lightbox />
+            <div class="card-body">
+              <h3>Featured Property 1</h3>
+              <p class="meta">Prime Location • Residential / Commercial</p>
+              <a
+                class="btn"
+                href="https://wa.me/254116162159?text=Hello%20Hillpoint%20Agency%20Ltd%2C%20I%20am%20interested%20in%20Featured%20Property%201."
+                target="_blank"
+                rel="noopener noreferrer"
+                onclick="trackWhatsAppLead('Featured Property 1', 'listing_card')"
+              >
+                Inquire on WhatsApp
+              </a>
             </div>
-            <h2 class="font-display" style="font-size:32px;color:var(--text-main);margin-top:2px;">Book a Viewing on WhatsApp</h2>
-          </div>
-          <span class="status-pill">WhatsApp: 0116162159</span>
-        </div>
+          </article>
 
-        <form id="bookingForm" class="form-grid">
-          <div>
-            <label for="clientName">Your Name</label>
-            <input id="clientName" type="text" required placeholder="e.g. Brian Mwangi" />
-          </div>
-          <div>
-            <label for="clientPhone">Your WhatsApp / Phone</label>
-            <input id="clientPhone" type="tel" required placeholder="e.g. +254 712 345 678" />
-          </div>
-          <div>
-            <label for="houseSelect">Choose House</label>
-            <select id="houseSelect"></select>
-          </div>
-          <div>
-            <label for="bookingDate">Preferred Date</label>
-            <input id="bookingDate" type="date" required />
-          </div>
-          <div>
-            <label for="agencyWa">Hillpoint Agency WhatsApp Number</label>
-            <input id="agencyWa" type="text" value="0116162159" />
-          </div>
-          <div>
-            <label for="clientNote">Note</label>
-            <input id="clientNote" type="text" placeholder="Preferred viewing time..." />
-          </div>
-          <div class="span-2" style="display:flex;justify-content:flex-end;">
-            <button type="submit" class="btn-gold">Send Booking on WhatsApp</button>
-          </div>
+          <article class="card">
+            <img src="assets/property-2.jpg" alt="Hillpoint Featured Property 2" data-lightbox />
+            <div class="card-body">
+              <h3>Featured Property 2</h3>
+              <p class="meta">Prime Location • Investment Plot / Unit</p>
+              <a
+                class="btn"
+                href="https://wa.me/254116162159?text=Hello%20Hillpoint%20Agency%20Ltd%2C%20I%20am%20interested%20in%20Featured%20Property%202."
+                target="_blank"
+                rel="noopener noreferrer"
+                onclick="trackWhatsAppLead('Featured Property 2', 'listing_card')"
+              >
+                Inquire on WhatsApp
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="videos">
+      <div class="container">
+        <h2>Property Walkthrough Videos</h2>
+        <div class="video-grid">
+          <video controls preload="metadata" playsinline>
+            <source src="assets/walkthrough-1.mp4" type="video/mp4" />
+            Your browser does not support HTML5 video.
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <section id="booking">
+      <div class="container">
+        <h2>Book a Viewing via WhatsApp</h2>
+        <form id="whatsapp-lead-form">
+          <label>
+            Your Name
+            <input type="text" id="client-name" name="clientName" placeholder="Enter your full name" required />
+          </label>
+
+          <label>
+            Property / Inquiry Type
+            <select id="property-select" name="property">
+              <option value="Featured Property 1">Featured Property 1</option>
+              <option value="Featured Property 2">Featured Property 2</option>
+              <option value="General Property Inquiry">General Property Inquiry</option>
+            </select>
+          </label>
+
+          <label>
+            Preferred Viewing Date or Notes
+            <textarea id="client-notes" name="notes" rows="3" placeholder="Preferred date, budget, or questions..."></textarea>
+          </label>
+
+          <button type="submit" class="btn">Send to WhatsApp (0116162159)</button>
         </form>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <div id="photoLightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Property Photo Viewer">
-    <div class="lightbox-top">
-      <div>
-        <div id="lightboxTitle" class="font-display" style="font-size:22px;color:var(--goldish-bright);font-weight:700;"></div>
-        <div id="lightboxMeta" style="font-size:12px;color:var(--text-muted);"></div>
-      </div>
-      <div class="lightbox-controls">
-        <button type="button" id="zoomOutBtn" class="zoom-btn" title="Zoom Out">-</button>
-        <button type="button" id="zoomResetBtn" class="zoom-btn active">100%</button>
-        <button type="button" id="zoomInBtn" class="zoom-btn" title="Zoom In">+</button>
-        <button type="button" id="closeLightboxBtn" class="btn-gold" style="padding:7px 14px;">Close ×</button>
-      </div>
-    </div>
-
-    <div id="lightboxStage" class="lightbox-stage">
-      <img id="lightboxImg" src="" alt="" />
-    </div>
-
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;color:var(--text-muted);">
-      <span>Tap photo to toggle zoom • Drag to pan when zoomed</span>
-      <button type="button" id="lightboxBookBtn" class="btn-gold">Book on WhatsApp</button>
-    </div>
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close image">Close ✕</button>
+    <img id="lightbox-img" src="" alt="Expanded property view" />
   </div>
 
   <footer>
-    <div class="container" style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;">
-      <div><strong style="color:var(--goldish);">Hillpoint Agency Ltd</strong> • Nairobi • WhatsApp: 0116162159</div>
-      <div>Folders: <strong style="color:var(--goldish);">videos/</strong> &amp; <strong style="color:var(--goldish);">images/</strong></div>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Hillpoint Agency Ltd. All rights reserved.</p>
     </div>
   </footer>
 
   <script>
-    const TWO_SEPARATE_VIDEOS = [
-      {
-        id: 'vid-1',
-        houseId: 'hp-house1',
-        label: 'Video 1 • 02:00 Walkthrough',
-        title: 'Signature 3-Storey Glass & Stone Mansion',
-        neighborhood: 'Lavington, Nairobi',
-        priceDisplay: 'KES 135M',
-        src: 'videos/e04762648fa300144bb3f155807da1b0_1795297181577.mp4',
-        poster: 'images/1795296803288.jpg'
-      },
-      {
-        id: 'vid-2',
-        houseId: 'hp-house2',
-        label: 'Video 2 • 02:00 Walkthrough',
-        title: 'Forest-Edge 5-Bedroom Villa + Rooftop Gazebo',
-        neighborhood: 'Kitisuru / Kiambu Rd',
-        priceDisplay: 'KES 125M',
-        src: 'videos/c9cedd0de4ac3b3beb64f4e048f1b6a4_1795297241321.mp4',
-        poster: 'images/1795296819857.jpg'
-      }
-    ];
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    const EMBEDDED_PROPERTIES = [
-      {
-        "id": "hp-house1",
-        "title": "Signature 3-Storey Glass & Stone Mansion",
-        "neighborhood": "Lavington, Nairobi",
-        "priceKes": 135000000,
-        "priceDisplay": "KES 135M",
-        "category": "Luxury Mansions",
-        "bedrooms": 6,
-        "bathrooms": 7,
-        "hasDsq": true,
-        "videoSrc": "videos/e04762648fa300144bb3f155807da1b0_1795297181577.mp4",
-        "photos": ["images/1795296803288.jpg", "images/1795296819857.jpg", "images/1795296865817.jpg"]
-      },
-      {
-        "id": "hp-house2",
-        "title": "Forest-Edge 5-Bedroom Villa + Rooftop Gazebo",
-        "neighborhood": "Kitisuru / Kiambu Rd",
-        "priceKes": 125000000,
-        "priceDisplay": "KES 125M",
-        "category": "Luxury Mansions",
-        "bedrooms": 5,
-        "bathrooms": 6,
-        "hasDsq": true,
-        "videoSrc": "videos/c9cedd0de4ac3b3beb64f4e048f1b6a4_1795297241321.mp4",
-        "photos": ["images/1795296819857.jpg", "images/1795296803288.jpg", "images/1795296884370.jpg"]
-      },
-      {
-        "id": "hp-house3",
-        "title": "Runda Executive 5-Bedroom Mansion + DSQ",
-        "neighborhood": "Runda, Nairobi",
-        "priceKes": 148000000,
-        "priceDisplay": "KES 148M",
-        "category": "Luxury Mansions",
-        "bedrooms": 5,
-        "bathrooms": 6,
-        "hasDsq": true,
-        "videoSrc": "videos/e04762648fa300144bb3f155807da1b0_1795297181577.mp4",
-        "photos": ["images/1795296865817.jpg", "images/1795296819857.jpg", "images/1795296884370.jpg"]
-      },
-      {
-        "id": "hp-house4",
-        "title": "Karen Classic 5-Bedroom Standalone Villa",
-        "neighborhood": "Karen, Nairobi",
-        "priceKes": 110000000,
-        "priceDisplay": "KES 110M",
-        "category": "Standalone Villas",
-        "bedrooms": 5,
-        "bathrooms": 5,
-        "hasDsq": true,
-        "videoSrc": "videos/c9cedd0de4ac3b3beb64f4e048f1b6a4_1795297241321.mp4",
-        "photos": ["images/1795296884370.jpg", "images/1795296819857.jpg", "images/1795296928069.jpg"]
-      },
-      {
-        "id": "hp-house5",
-        "title": "Architectural A-Frame 3-Bedroom Barn Villa",
-        "neighborhood": "Tigoni / Limuru Rd",
-        "priceKes": 46000000,
-        "priceDisplay": "KES 46M",
-        "category": "Standalone Villas",
-        "bedrooms": 3,
-        "bathrooms": 4,
-        "hasDsq": true,
-        "videoSrc": "videos/e04762648fa300144bb3f155807da1b0_1795297181577.mp4",
-        "photos": ["images/1795296928069.jpg", "images/1795296884370.jpg", "images/1795296956343.jpg"]
-      },
-      {
-        "id": "hp-house6",
-        "title": "Gated Court 4-Bedroom Detached Maisonettes",
-        "neighborhood": "Syokimau / Mombasa Rd",
-        "priceKes": 24500000,
-        "priceDisplay": "KES 24.5M",
-        "category": "Gated Maisonettes",
-        "bedrooms": 4,
-        "bathrooms": 4,
-        "hasDsq": true,
-        "videoSrc": "videos/c9cedd0de4ac3b3beb64f4e048f1b6a4_1795297241321.mp4",
-        "photos": ["images/1795296937421.jpg", "images/1795296946657.jpg", "images/1795296956343.jpg"]
-      },
-      {
-        "id": "hp-house7",
-        "title": "Contemporary Gated Estate 4-Bedroom Townhomes",
-        "neighborhood": "Ruiru / Kamakis",
-        "priceKes": 21000000,
-        "priceDisplay": "KES 21M",
-        "category": "Gated Maisonettes",
-        "bedrooms": 4,
-        "bathrooms": 4,
-        "hasDsq": true,
-        "videoSrc": "videos/e04762648fa300144bb3f155807da1b0_1795297181577.mp4",
-        "photos": ["images/1795296946657.jpg", "images/1795296937421.jpg", "images/1795296956343.jpg"]
-      },
-      {
-        "id": "hp-house8",
-        "title": "Modern Family 4-Bedroom Townhouse + Lawn",
-        "neighborhood": "Kitengela / Rongai",
-        "priceKes": 18500000,
-        "priceDisplay": "KES 18.5M",
-        "category": "Gated Maisonettes",
-        "bedrooms": 4,
-        "bathrooms": 4,
-        "hasDsq": false,
-        "videoSrc": "videos/c9cedd0de4ac3b3beb64f4e048f1b6a4_1795297241321.mp4",
-        "photos": ["images/1795296956343.jpg", "images/1795296946657.jpg", "images/1795296937421.jpg"]
-      },
-      {
-        "id": "hp-house9",
-        "title": "Skyview 3-Bedroom Luxury Apartments + DSQ",
-        "neighborhood": "Kilimani / Kileleshwa",
-        "priceKes": 22000000,
-        "priceDisplay": "KES 22M",
-        "category": "Apartments",
-        "bedrooms": 3,
-        "bathrooms": 3,
-        "hasDsq": true,
-        "videoSrc": "videos/e04762648fa300144bb3f155807da1b0_1795297181577.mp4",
-        "photos": ["images/1795296984805.jpg", "images/1795296803288.jpg", "images/1795296865817.jpg"]
-      }
-    ];
+    // Lightbox logic
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
 
-    function normalizeKenyaWhatsAppNumber(rawVal) {
-      let digits = String(rawVal || '').replace(/[^0-9]/g, '');
-      if (digits.startsWith('0') && digits.length === 10) {
-        digits = '254' + digits.slice(1);
-      } else if (digits.length === 9 && (digits.startsWith('7') || digits.startsWith('1'))) {
-        digits = '254' + digits;
-      }
-      return digits || '254116162159';
-    }
-
-    let catalog = [...EMBEDDED_PROPERTIES];
-    let selectedCategory = 'All';
-    let currentZoom = 1;
-    let activePropertyId = 'hp-house1';
-
-    function makeBlackGoldishArtwork(titleText, subText) {
-      const safeTitle = String(titleText || 'HILLPOINT AGENCY LTD').replace(/[<>&"]/g, '');
-      const safeSub = String(subText || 'NAIROBI PHOTO').replace(/[<>&"]/g, '');
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="560" viewBox="0 0 800 560">
-        <rect width="800" height="560" fill="#050505"/>
-        <rect x="22" y="22" width="756" height="516" rx="18" fill="#111111" stroke="#FFB000" stroke-width="3"/>
-        <polygon points="400,115 245,225 245,395 555,395 555,225" fill="#191919" stroke="#FFB000" stroke-width="3"/>
-        <polygon points="400,90 215,222 585,222" fill="#FFB000"/>
-        <rect x="372" y="295" width="56" height="100" fill="#FFB000"/>
-        <text x="400" y="445" fill="#FFC933" font-family="Georgia, serif" font-size="28" font-weight="bold" text-anchor="middle">${safeTitle}</text>
-        <text x="400" y="482" fill="#FFB000" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">${safeSub}</text>
-      </svg>`;
-      return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
-    }
-
-    function handlePhotoError(imgEl, filePath) {
-      if (imgEl.dataset.artApplied === '1') return;
-      imgEl.dataset.artApplied = '1';
-      imgEl.src = makeBlackGoldishArtwork(imgEl.alt || 'Hillpoint Agency Ltd', filePath || 'images/');
-    }
-
-    function applyZoomLevel(level) {
-      currentZoom = Math.min(2.5, Math.max(1, Number(level.toFixed(2))));
-      const lbImg = document.getElementById('lightboxImg');
-      const resetBtn = document.getElementById('zoomResetBtn');
-      if (currentZoom === 1) {
-        lbImg.classList.remove('zoomed');
-        lbImg.style.transform = 'scale(1)';
-      } else {
-        lbImg.classList.add('zoomed');
-        lbImg.style.transform = `scale(${currentZoom})`;
-      }
-      resetBtn.textContent = Math.round(currentZoom * 100) + '%';
-    }
-
-    function openPhotoLightbox(imgSrc, propertyId) {
-      const prop = catalog.find(p => p.id === propertyId) || catalog[0];
-      activePropertyId = prop.id;
-      const lightbox = document.getElementById('photoLightbox');
-      const lbImg = document.getElementById('lightboxImg');
-      document.getElementById('lightboxTitle').textContent = prop.title;
-      document.getElementById('lightboxMeta').textContent = `${prop.neighborhood} • ${prop.priceDisplay}`;
-      lbImg.dataset.artApplied = '';
-      lbImg.alt = prop.title;
-      lbImg.onerror = () => handlePhotoError(lbImg, imgSrc);
-      lbImg.src = imgSrc;
-      applyZoomLevel(1);
-      lightbox.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closePhotoLightbox() {
-      document.getElementById('photoLightbox').classList.remove('open');
-      document.body.style.overflow = '';
-      applyZoomLevel(1);
-    }
-
-    function renderTwoVideos() {
-      const grid = document.getElementById('separateVideosGrid');
-      grid.innerHTML = TWO_SEPARATE_VIDEOS.map(v => `
-        <article class="card">
-          <div class="video-stage">
-            <video id="${v.id}" controls preload="metadata" playsinline poster="${v.poster}">
-              <source src="${v.src}" type="video/mp4" />
-            </video>
-            <div id="${v.id}-err" class="video-error-box">
-              <div class="status-pill">${v.label}</div>
-              <p style="font-size:13px;color:var(--goldish);font-weight:700;">File needed: ${v.src}</p>
-              <p style="font-size:12px;color:var(--text-muted);max-width:360px;">
-                Upload this file as an MP4 (H.264 + AAC) inside <strong style="color:var(--goldish);">videos/</strong> next to <strong style="color:var(--goldish);">index.html</strong>.
-              </p>
-            </div>
-          </div>
-          <div class="card-body">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;">
-              <span class="section-eyebrow">${v.label} • ${v.neighborhood}</span>
-              <span class="price-tag">${v.priceDisplay}</span>
-            </div>
-            <h3 class="font-display" style="font-size:24px;color:var(--text-main);margin-bottom:10px;">${v.title}</h3>
-            <div style="display:flex;gap:10px;">
-              <button type="button" onclick="playSingleVideo('${v.id}')" class="btn-dark-gold" style="flex:1;">Play Video</button>
-              <button type="button" onclick="choosePropertyAndScroll('${v.houseId}')" class="btn-gold" style="flex:1;">Book on WhatsApp</button>
-            </div>
-          </div>
-        </article>
-      `).join('');
-
-      TWO_SEPARATE_VIDEOS.forEach(v => {
-        const vidEl = document.getElementById(v.id);
-        const errBox = document.getElementById(`${v.id}-err`);
-        const showErr = () => errBox.classList.add('show');
-        vidEl.addEventListener('error', showErr);
-        const sourceEl = vidEl.querySelector('source');
-        if (sourceEl) sourceEl.addEventListener('error', showErr);
-      });
-    }
-
-    function playSingleVideo(id) {
-      TWO_SEPARATE_VIDEOS.forEach(v => {
-        const el = document.getElementById(v.id);
-        if (el && v.id !== id) el.pause();
-      });
-      const target = document.getElementById(id);
-      if (target) {
-        target.play().catch(() => {
-          document.getElementById(`${id}-err`).classList.add('show');
-        });
-      }
-    }
-
-    function renderPhotos() {
-      const grid = document.getElementById('photosGrid');
-      const list = selectedCategory === 'All'
-        ? catalog
-        : catalog.filter(item => item.category === selectedCategory);
-
-      grid.innerHTML = list.map(item => `
-        <article class="card">
-          <div class="photo-stage" onclick="openPhotoLightbox('${item.photos[0]}', '${item.id}')">
-            <img
-              src="${item.photos[0]}"
-              alt="${item.title}"
-              onerror="handlePhotoError(this, '${item.photos[0]}')"
-            />
-            <span class="zoom-hint">Tap to Zoom</span>
-          </div>
-          <div class="card-body">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px;">
-              <span class="section-eyebrow">${item.neighborhood}</span>
-              <span class="price-tag">${item.priceDisplay}</span>
-            </div>
-            <h3 class="font-display" style="font-size:22px;color:var(--text-main);margin-bottom:10px;">${item.title}</h3>
-            <button type="button" onclick="choosePropertyAndScroll('${item.id}')" class="btn-gold" style="width:100%;">Book on WhatsApp</button>
-          </div>
-        </article>
-      `).join('');
-    }
-
-    function populateSelect() {
-      const sel = document.getElementById('houseSelect');
-      sel.innerHTML = catalog.map(item =>
-        `<option value="${item.id}">${item.title} (${item.priceDisplay})</option>`
-      ).join('');
-    }
-
-    function choosePropertyAndScroll(id) {
-      const sel = document.getElementById('houseSelect');
-      if (sel) sel.value = id;
-      document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    async function loadCatalog() {
-      const pill = document.getElementById('jsonStatusPill');
-      try {
-        const res = await fetch('./properties.json', { cache: 'no-store' });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const jsonData = await res.json();
-        if (Array.isArray(jsonData) && jsonData.length > 0) {
-          catalog = jsonData;
-          pill.textContent = 'properties.json (' + catalog.length + ' homes)';
-        }
-      } catch (e) {
-        pill.textContent = 'Catalog ready (' + catalog.length + ' homes)';
-      }
-      populateSelect();
-      renderTwoVideos();
-      renderPhotos();
-    }
-
-    document.getElementById('zoomInBtn').addEventListener('click', () => applyZoomLevel(currentZoom + 0.5));
-    document.getElementById('zoomOutBtn').addEventListener('click', () => applyZoomLevel(currentZoom - 0.5));
-    document.getElementById('zoomResetBtn').addEventListener('click', () => applyZoomLevel(1));
-    document.getElementById('closeLightboxBtn').addEventListener('click', closePhotoLightbox);
-
-    document.getElementById('lightboxImg').addEventListener('click', (e) => {
-      e.stopPropagation();
-      applyZoomLevel(currentZoom > 1 ? 1 : 2);
-    });
-
-    document.getElementById('photoLightbox').addEventListener('click', (e) => {
-      if (e.target.id === 'photoLightbox' || e.target.id === 'lightboxStage') {
-        closePhotoLightbox();
-      }
-    });
-
-    document.getElementById('lightboxBookBtn').addEventListener('click', () => {
-      const propId = activePropertyId;
-      closePhotoLightbox();
-      choosePropertyAndScroll(propId);
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && document.getElementById('photoLightbox').classList.contains('open')) {
-        closePhotoLightbox();
-      }
-    });
-
-    document.querySelectorAll('#filterBar .filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        selectedCategory = btn.dataset.cat;
-        document.querySelectorAll('#filterBar .filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderPhotos();
+    document.querySelectorAll('img[data-lightbox]').forEach((img) => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.currentSrc || img.src;
+        lightboxImg.alt = img.alt || 'Property photo';
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
       });
     });
 
-    const bookingForm = document.getElementById('bookingForm');
-    bookingForm.addEventListener('submit', (e) => {
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImg.src = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // WhatsApp lead form submission + GA4 tracking
+    const leadForm = document.getElementById('whatsapp-lead-form');
+    leadForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const nameInput = document.getElementById('clientName');
-      const phoneInput = document.getElementById('clientPhone');
-      const id = document.getElementById('houseSelect').value;
-      const date = document.getElementById('bookingDate').value;
-      const noteInput = document.getElementById('clientNote');
 
-      const name = nameInput.value.trim();
-      const phone = phoneInput.value.trim();
-      const note = noteInput.value.trim();
-      const waNum = normalizeKenyaWhatsAppNumber(document.getElementById('agencyWa').value);
-      const prop = catalog.find(p => p.id === id) || catalog[0];
+      const name = document.getElementById('client-name').value.trim();
+      const property = document.getElementById('property-select').value;
+      const notes = document.getElementById('client-notes').value.trim();
 
-      const msg = [
-        'Hello Hillpoint Agency Ltd (Nairobi),',
-        `House: ${prop.title} (${prop.priceDisplay})`,
-        `Date: ${date || 'Flexible'}`,
-        `Name & Phone: ${name} (${phone})`,
-        note ? `Note: ${note}` : ''
+      trackWhatsAppLead(property, 'lead_form_submit');
+
+      const message = [
+        'Hello Hillpoint Agency Ltd,',
+        `Name: ${name}`,
+        `Property: ${property}`,
+        notes ? `Notes: ${notes}` : null
       ].filter(Boolean).join('\n');
 
-      window.open(`https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
-
-      nameInput.value = '';
-      phoneInput.value = '';
-      noteInput.value = '';
+      const waUrl = `https://wa.me/254116162159?text=${encodeURIComponent(message)}`;
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
     });
-
-    document.getElementById('bookingDate').value = new Date().toISOString().split('T')[0];
-    loadCatalog();
   </script>
-</body><script defer src="/_vercel/insights/script.js"></script>
-
+</body>
 </html>
