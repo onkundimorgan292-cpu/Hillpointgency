@@ -304,6 +304,7 @@
       aspect-ratio: 4 / 3;
       background-color: var(--bg-elevated);
       overflow: hidden;
+      cursor: zoom-in;
     }
 
     .photo-stage img {
@@ -311,6 +312,25 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .photo-stage:hover img {
+      transform: scale(1.03);
+    }
+
+    .zoom-hint {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background-color: rgba(5, 5, 5, 0.85);
+      border: 1px solid var(--goldish-dim);
+      color: var(--goldish-bright);
+      font-size: 11px;
+      font-weight: 700;
+      pointer-events: none;
     }
 
     .card-body { padding: 16px; }
@@ -382,6 +402,83 @@
       font-family: inherit;
     }
 
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background-color: rgba(5, 5, 5, 0.96);
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px;
+      gap: 12px;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--goldish-dim);
+      border-radius: 14px;
+      padding: 12px 16px;
+    }
+
+    .lightbox-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .zoom-btn {
+      padding: 7px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--goldish);
+      background-color: var(--bg-elevated);
+      color: var(--goldish-bright);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .zoom-btn.active {
+      background-color: var(--goldish);
+      color: #050505;
+    }
+
+    .lightbox-stage {
+      flex: 1;
+      width: 100%;
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--goldish-dim);
+      border-radius: 16px;
+      background-color: var(--bg-black);
+      padding: 16px;
+    }
+
+    .lightbox-stage img {
+      max-width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 10px;
+      transform-origin: center center;
+      transition: transform 0.2s ease;
+      cursor: zoom-in;
+    }
+
+    .lightbox-stage img.zoomed {
+      max-width: none;
+      max-height: none;
+      cursor: zoom-out;
+    }
+
     footer {
       padding: 24px 0;
       background-color: var(--bg-black);
@@ -438,7 +535,7 @@
           <h1 class="section-title font-display">2 Property Walkthrough Videos</h1>
         </div>
         <p style="font-size:13px;color:var(--text-muted);max-width:440px;">
-          Watch both 2-minute walkthrough videos directly below or browse the photo gallery.
+          Watch both 2-minute walkthrough videos directly below or tap any photo to view and zoom.
         </p>
       </div>
 
@@ -512,6 +609,30 @@
       </div>
     </div>
   </section>
+
+  <div id="photoLightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Property Photo Viewer">
+    <div class="lightbox-top">
+      <div>
+        <div id="lightboxTitle" class="font-display" style="font-size:22px;color:var(--goldish-bright);font-weight:700;"></div>
+        <div id="lightboxMeta" style="font-size:12px;color:var(--text-muted);"></div>
+      </div>
+      <div class="lightbox-controls">
+        <button type="button" id="zoomOutBtn" class="zoom-btn" title="Zoom Out">-</button>
+        <button type="button" id="zoomResetBtn" class="zoom-btn active">100%</button>
+        <button type="button" id="zoomInBtn" class="zoom-btn" title="Zoom In">+</button>
+        <button type="button" id="closeLightboxBtn" class="btn-gold" style="padding:7px 14px;">Close ×</button>
+      </div>
+    </div>
+
+    <div id="lightboxStage" class="lightbox-stage">
+      <img id="lightboxImg" src="" alt="" />
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;color:var(--text-muted);">
+      <span>Tap photo to toggle zoom • Drag to pan when zoomed</span>
+      <button type="button" id="lightboxBookBtn" class="btn-gold">Book on WhatsApp</button>
+    </div>
+  </div>
 
   <footer>
     <div class="container" style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;">
@@ -676,6 +797,8 @@
 
     let catalog = [...EMBEDDED_PROPERTIES];
     let selectedCategory = 'All';
+    let currentZoom = 1;
+    let activePropertyId = 'hp-house1';
 
     function makeBlackGoldishArtwork(titleText, subText) {
       const safeTitle = String(titleText || 'HILLPOINT AGENCY LTD').replace(/[<>&"]/g, '');
@@ -696,6 +819,42 @@
       if (imgEl.dataset.artApplied === '1') return;
       imgEl.dataset.artApplied = '1';
       imgEl.src = makeBlackGoldishArtwork(imgEl.alt || 'Hillpoint Agency Ltd', filePath || 'images/');
+    }
+
+    function applyZoomLevel(level) {
+      currentZoom = Math.min(2.5, Math.max(1, Number(level.toFixed(2))));
+      const lbImg = document.getElementById('lightboxImg');
+      const resetBtn = document.getElementById('zoomResetBtn');
+      if (currentZoom === 1) {
+        lbImg.classList.remove('zoomed');
+        lbImg.style.transform = 'scale(1)';
+      } else {
+        lbImg.classList.add('zoomed');
+        lbImg.style.transform = `scale(${currentZoom})`;
+      }
+      resetBtn.textContent = Math.round(currentZoom * 100) + '%';
+    }
+
+    function openPhotoLightbox(imgSrc, propertyId) {
+      const prop = catalog.find(p => p.id === propertyId) || catalog[0];
+      activePropertyId = prop.id;
+      const lightbox = document.getElementById('photoLightbox');
+      const lbImg = document.getElementById('lightboxImg');
+      document.getElementById('lightboxTitle').textContent = prop.title;
+      document.getElementById('lightboxMeta').textContent = `${prop.neighborhood} • ${prop.priceDisplay}`;
+      lbImg.dataset.artApplied = '';
+      lbImg.alt = prop.title;
+      lbImg.onerror = () => handlePhotoError(lbImg, imgSrc);
+      lbImg.src = imgSrc;
+      applyZoomLevel(1);
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePhotoLightbox() {
+      document.getElementById('photoLightbox').classList.remove('open');
+      document.body.style.overflow = '';
+      applyZoomLevel(1);
     }
 
     function renderTwoVideos() {
@@ -759,12 +918,13 @@
 
       grid.innerHTML = list.map(item => `
         <article class="card">
-          <div class="photo-stage">
+          <div class="photo-stage" onclick="openPhotoLightbox('${item.photos[0]}', '${item.id}')">
             <img
               src="${item.photos[0]}"
               alt="${item.title}"
               onerror="handlePhotoError(this, '${item.photos[0]}')"
             />
+            <span class="zoom-hint">Tap to Zoom</span>
           </div>
           <div class="card-body">
             <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px;">
@@ -809,6 +969,34 @@
       renderPhotos();
     }
 
+    document.getElementById('zoomInBtn').addEventListener('click', () => applyZoomLevel(currentZoom + 0.5));
+    document.getElementById('zoomOutBtn').addEventListener('click', () => applyZoomLevel(currentZoom - 0.5));
+    document.getElementById('zoomResetBtn').addEventListener('click', () => applyZoomLevel(1));
+    document.getElementById('closeLightboxBtn').addEventListener('click', closePhotoLightbox);
+
+    document.getElementById('lightboxImg').addEventListener('click', (e) => {
+      e.stopPropagation();
+      applyZoomLevel(currentZoom > 1 ? 1 : 2);
+    });
+
+    document.getElementById('photoLightbox').addEventListener('click', (e) => {
+      if (e.target.id === 'photoLightbox' || e.target.id === 'lightboxStage') {
+        closePhotoLightbox();
+      }
+    });
+
+    document.getElementById('lightboxBookBtn').addEventListener('click', () => {
+      const propId = activePropertyId;
+      closePhotoLightbox();
+      choosePropertyAndScroll(propId);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.getElementById('photoLightbox').classList.contains('open')) {
+        closePhotoLightbox();
+      }
+    });
+
     document.querySelectorAll('#filterBar .filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         selectedCategory = btn.dataset.cat;
@@ -818,13 +1006,18 @@
       });
     });
 
-    document.getElementById('bookingForm').addEventListener('submit', (e) => {
+    const bookingForm = document.getElementById('bookingForm');
+    bookingForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = document.getElementById('clientName').value.trim();
-      const phone = document.getElementById('clientPhone').value.trim();
+      const nameInput = document.getElementById('clientName');
+      const phoneInput = document.getElementById('clientPhone');
       const id = document.getElementById('houseSelect').value;
       const date = document.getElementById('bookingDate').value;
-      const note = document.getElementById('clientNote').value.trim();
+      const noteInput = document.getElementById('clientNote');
+
+      const name = nameInput.value.trim();
+      const phone = phoneInput.value.trim();
+      const note = noteInput.value.trim();
       const waNum = normalizeKenyaWhatsAppNumber(document.getElementById('agencyWa').value);
       const prop = catalog.find(p => p.id === id) || catalog[0];
 
@@ -837,6 +1030,10 @@
       ].filter(Boolean).join('\n');
 
       window.open(`https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+
+      nameInput.value = '';
+      phoneInput.value = '';
+      noteInput.value = '';
     });
 
     document.getElementById('bookingDate').value = new Date().toISOString().split('T')[0];
